@@ -10,23 +10,21 @@ namespace SampleDBandAuth
 {
     class Program
     {
-        
-
         static void Main(string[] args)
         {
-            
-            
             int userSelection = 0;
-            
-
             do
             {
                 Console.WriteLine("Select an option:");
                 Console.WriteLine("1) Register Account");
                 Console.WriteLine("2) Sign in");
                 Console.WriteLine("3) Exit\n");
-            
-                userSelection = Convert.ToInt32(Console.ReadLine());
+
+                try
+                {
+                    userSelection = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (Exception ex) { Console.WriteLine(ex.Message); }
                 
 
                 if (userSelection == 1)
@@ -75,8 +73,7 @@ namespace SampleDBandAuth
                     Console.WriteLine("Hashing password...");
                     string hashedPwd = BCrypt.Net.BCrypt.HashPassword(pwdBuilder, salt);
                     Console.WriteLine("Creating account...");
-                    var user = new User { Username = userName, HashedPwd = hashedPwd, Salt = salt };
-                    db.Users.Add(user);
+                    db.Users.Add(new User { Username = userName, HashedPwd = hashedPwd, Salt = salt });
                     db.SaveChanges();
                 }
                 else
@@ -143,7 +140,11 @@ namespace SampleDBandAuth
                 Console.WriteLine("Welcome! What would you like to do?");
                 Console.WriteLine("1) Print all users");
                 Console.WriteLine("2) Sign out");
-                userSelection = Convert.ToInt32(Console.ReadLine());
+                try
+                {
+                    userSelection = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (Exception ex) { Console.WriteLine(ex.Message); }
 
                 if (userSelection == 1)
                 {
